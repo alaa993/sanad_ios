@@ -144,9 +144,6 @@ final class AuthViewModel: ObservableObject {
         if let auth = error as? AuthServiceError {
             return auth.isSessionInvalid
         }
-        if error is DecodingError {
-            return true
-        }
         return false
     }
 

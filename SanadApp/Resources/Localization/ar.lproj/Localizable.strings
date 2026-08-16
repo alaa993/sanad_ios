@@ -111,6 +111,7 @@
 "register_error_password_mismatch" = "كلمتا المرور غير متطابقتين";
 "register_error_password_short" = "كلمة المرور يجب أن تكون 6 أحرف على الأقل (الأحرف الصغيرة مسموحة).";
 "register_error_name_short" = "يجب أن يكون الاسم حرفين على الأقل";
+"register_error_name_taken" = "هذا الاسم مسجّل مسبقاً";
 "register_error_email_taken" = "البريد الإلكتروني مسجّل مسبقاً";
 "register_error_phone_taken" = "رقم الهاتف مسجّل مسبقاً";
 "register_error_contact_required" = "أدخل بريدًا أو هاتفًا للتواصل";

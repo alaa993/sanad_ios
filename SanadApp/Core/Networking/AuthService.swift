@@ -208,7 +208,7 @@ public final class AuthService {
         guard let http = resp as? HTTPURLResponse else {
             throw AuthServiceError.invalidResponse
         }
-        if http.statusCode == 401 || http.statusCode == 403 || http.statusCode == 404 {
+        if http.statusCode == 401 {
             throw AuthServiceError.unauthorized(http.statusCode)
         }
         guard (200..<300).contains(http.statusCode) else {
@@ -223,8 +223,7 @@ public final class AuthService {
         } catch let error as AuthServiceError {
             throw error
         } catch {
-            // Broken/unexpected payload after an app or schema upgrade — treat as dead session.
-            throw AuthServiceError.unauthorized(http.statusCode)
+            throw AuthServiceError.invalidResponse
         }
     }
 

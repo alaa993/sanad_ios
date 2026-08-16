@@ -298,8 +298,17 @@ public struct RegisterView: View {
             try await authVM.saveSecurityAnswer(username: trimmedName, answer: securityAnswer.trimmingCharacters(in: .whitespacesAndNewlines))
             onboardingDone = false
         } catch {
-            self.error = error.localizedDescription
-            alertMessage = error.localizedDescription
+            let raw = error.localizedDescription.lowercased()
+            if raw.contains("name") && (raw.contains("already") || raw.contains("taken") || raw.contains("unique")) {
+                alertMessage = NSLocalizedString("register_error_name_taken", comment: "")
+            } else if raw.contains("email") && (raw.contains("already") || raw.contains("taken") || raw.contains("unique")) {
+                alertMessage = NSLocalizedString("register_error_email_taken", comment: "")
+            } else if raw.contains("phone") && (raw.contains("already") || raw.contains("taken") || raw.contains("unique")) {
+                alertMessage = NSLocalizedString("register_error_phone_taken", comment: "")
+            } else {
+                alertMessage = error.localizedDescription
+            }
+            self.error = alertMessage
             showAlert = true
         }
     }

@@ -111,6 +111,7 @@
 "register_error_password_mismatch" = "Passwords do not match";
 "register_error_password_short" = "Password must be at least 6 characters (lowercase is allowed).";
 "register_error_name_short" = "Name must be at least 2 characters";
+"register_error_name_taken" = "This name is already registered";
 "register_error_email_taken" = "This email is already registered";
 "register_error_phone_taken" = "This phone number is already registered";
 "register_error_contact_required" = "Enter an email or phone number to be contacted";
