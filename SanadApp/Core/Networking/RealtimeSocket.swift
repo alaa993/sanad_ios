@@ -79,8 +79,8 @@ public final class RealtimeSocket {
             }
             engineSid = sid
             packets.forEach(processPacket)
-            if !socketReady {
-                try await postPollingPacket("40")
+            if (!socketReady) {
+                try await postPollingPacket(connectPacket())
             }
             if !socketReady {
                 try? await Task.sleep(nanoseconds: 150_000_000)
@@ -122,14 +122,30 @@ public final class RealtimeSocket {
         comps.path = "/socket/"
         var items = [
             URLQueryItem(name: "EIO", value: "4"),
-            URLQueryItem(name: "transport", value: transport),
-            URLQueryItem(name: "userId", value: userId ?? ""),
-            URLQueryItem(name: "role", value: role ?? ""),
-            URLQueryItem(name: "token", value: token ?? "")
+            URLQueryItem(name: "transport", value: transport)
         ]
+        if let userId, !userId.isEmpty {
+            items.append(URLQueryItem(name: "userId", value: userId))
+        }
+        if let role, !role.isEmpty {
+            items.append(URLQueryItem(name: "role", value: role))
+        }
         if let sid { items.append(URLQueryItem(name: "sid", value: sid)) }
         comps.queryItems = items
         return comps.url
+    }
+
+    private func connectPacket() -> String {
+        var auth: [String: String] = [:]
+        if let token, !token.isEmpty { auth["token"] = token }
+        if let userId, !userId.isEmpty { auth["userId"] = userId }
+        if let role, !role.isEmpty { auth["role"] = role }
+        guard !auth.isEmpty,
+              let data = try? JSONSerialization.data(withJSONObject: auth),
+              let json = String(data: data, encoding: .utf8) else {
+            return "40"
+        }
+        return "40" + json
     }
 
     private func postPollingPacket(_ packet: String) async throws {
